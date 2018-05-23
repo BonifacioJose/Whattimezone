@@ -6,13 +6,14 @@
         <div>zoneName: {{timezone.zoneName}}</div>
         <div>abbreviation: {{timezone.abbreviation}}</div>
         <div>formatted: <RealTimeClock v-bind:key="timezone.zoneName" :time="new Date(timezone.timestamp * 1000)"/></div>
-        <button v-on:click="removeTimezone">Remove</button>
+        <button v-on:click="remoteTimezone()">Remove</button>
     </div>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
 import RealTimeClock from './RealTimeClock.vue'
+import { REMOVE_TIMEZONE } from '../constants/mutations'
 
 export default {
     name: 'TimezoneCard',
@@ -29,9 +30,9 @@ export default {
         timezone: Object,
     },
     methods: mapActions({
-        removeTimezone() {
+        remoteTimezone() {
             const { timezone } = this;
-            this.$store.dispatch('removeTimezone', { timezone });
+            this.$store.dispatch(REMOVE_TIMEZONE, { timezone });
         }
     })
 }

@@ -15,6 +15,11 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import TimezoneCard from './TimezoneCard.vue'
+import {
+    SET_TIMEZONES,
+    SET_SELECTED_TIMEZONES,
+    SELECT_TIMEZONE
+} from '../constants/mutations'
 
 export default {
     name: 'TimezonesSelect',
@@ -33,7 +38,7 @@ export default {
     methods: mapActions({
         selectTimezone() {
             const { selectedTimezone } = this;
-            this.$store.dispatch('selectTimezone', { field: 'zone', value: selectedTimezone});
+            this.$store.dispatch(SELECT_TIMEZONE, { field: 'zone', value: selectedTimezone});
         },
         updateSelectedClocks() {
             setInterval(()=> {
@@ -44,12 +49,12 @@ export default {
                     timestamp += 1;
                     timezone.timestamp = timestamp.toString();
                 }  
-                this.$store.dispatch('setSelectedTimezones', {selectedTimezones})    
+                this.$store.dispatch(SET_SELECTED_TIMEZONES, {selectedTimezones})    
             }, 1000)
         }
     }),
     created() {
-        this.$store.dispatch('getTimezones')
+        this.$store.dispatch(SET_TIMEZONES)
         this.updateSelectedClocks();
     }
 }
