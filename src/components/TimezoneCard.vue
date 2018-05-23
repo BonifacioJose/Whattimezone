@@ -5,7 +5,7 @@
         <div>countryName: {{timezone.countryName}}</div>
         <div>zoneName: {{timezone.zoneName}}</div>
         <div>abbreviation: {{timezone.abbreviation}}</div>
-        <div>formatted: <RealTimeClock v-bind:key="timezone.timestamp" :time="new Date(timezone.timestamp * 1000)"/></div>
+        <div>formatted: <RealTimeClock v-bind:key="timezone.zoneName" :time="new Date(timezone.timestamp * 1000)"/></div>
         <button v-on:click="removeTimezone">Remove</button>
     </div>
 </template>
