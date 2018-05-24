@@ -1,7 +1,8 @@
 <template>
     <div class="timezones-select">
+        <input v-model="filterTimezone" v-on:keyup="filterTimezones"/>
         <select v-model="selectedTimezone">
-            <option v-for="timezone in timezones" v-bind:key="timezone.title">
+            <option v-for="timezone in filteredTimezones" v-bind:key="timezone.title">
                 {{ timezone.zoneName }}
             </option>
         </select>  
@@ -28,7 +29,9 @@ export default {
     },
     data() {
         return {
-            selectedTimezone: ''
+            selectedTimezone: '',
+            filteredTimezones: [],
+            filterTimezone: ''
         }
     },
     computed: mapGetters({
@@ -51,10 +54,15 @@ export default {
                 }  
                 this.$store.dispatch(SET_SELECTED_TIMEZONES, {selectedTimezones})    
             }, 1000)
+        },
+        filterTimezones() {
+            const {timezones} = this;
+            this.filteredTimezones = timezones.filter(item => item.zoneName.toLowerCase().includes(this.filterTimezone.toLowerCase()));
         }
     }),
     created() {
-        this.$store.dispatch(SET_TIMEZONES)
+        this.$store.dispatch(SET_TIMEZONES);
+        this.filteredTimezones = this.timezones;
         this.updateSelectedClocks();
     }
 }
